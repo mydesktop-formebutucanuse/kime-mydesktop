@@ -54,6 +54,7 @@
     xvfb # headless X server for the gtk/qt/xim tests
     xdotool # XTEST typing + window focus
     xprop # kime-xim readiness poll (XIM_SERVERS)
+    dbus # dbus-daemon: private session bus for kime-ibus's tests
   ];
 
   # The fuzz crate (fuzz/) — nightly-only, entered via `nix develop .#fuzz`.

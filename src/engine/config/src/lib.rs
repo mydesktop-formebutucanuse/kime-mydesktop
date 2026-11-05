@@ -98,6 +98,10 @@ pub enum DaemonModule {
     Xim,
     Wayland,
     Indicator,
+    /// `kime-ibus`: serves applications that only speak the IBus protocol.
+    /// Opt-in — it takes over the IBus names, so it must not run next to a
+    /// real `ibus-daemon`.
+    Ibus,
 }
 
 #[derive(Default)]

@@ -52,6 +52,9 @@ else
   if get_option('wayland').allowed()
     cargo_packages += ['-p', 'kime-wayland']
   endif
+  if get_option('ibus').allowed()
+    cargo_packages += ['-p', 'kime-ibus']
+  endif
   # kime main binary is always built when not using system engine
   cargo_packages += ['-p', 'kime']
 
@@ -104,6 +107,12 @@ else
     meson.add_install_script('sh', '-c',
       'install -Dm755 "$1" -t "${DESTDIR}${MESON_INSTALL_PREFIX}/bin"',
       '_', target_dir / 'kime-wayland',
+    )
+  endif
+  if get_option('ibus').allowed()
+    meson.add_install_script('sh', '-c',
+      'install -Dm755 "$1" -t "${DESTDIR}${MESON_INSTALL_PREFIX}/bin"',
+      '_', target_dir / 'kime-ibus',
     )
   endif
 

@@ -15,6 +15,7 @@ const fn process_name(module: Module) -> &'static str {
         Module::Xim => "kime-xim",
         Module::Wayland => "kime-wayland",
         Module::Indicator => "kime-indicator",
+        Module::Ibus => "kime-ibus",
     }
 }
 

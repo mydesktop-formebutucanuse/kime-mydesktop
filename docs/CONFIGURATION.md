@@ -27,11 +27,14 @@ Please select one of `OFF`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `TRACE`
 
 ## modules
 
-List of daemon modules default is *all*
+List of daemon modules. Default is `Xim`, `Wayland` and `Indicator`
 
 * Xim
 * Wayland
 * Indicator
+* Ibus: `kime-ibus`, serves applications that only speak the IBus protocol
+  (`GTK_IM_MODULE=ibus`, flatpak). Opt-in, see
+  [README](../README.md#ibus-x11)
 
 # indicator
 

@@ -27,11 +27,14 @@ kime 프로그램들의 로그 레벨을 설정합니다
 
 ## modules
 
-데몬의 모듈 목록입니다 기본값은 *전부*입니다
+데몬의 모듈 목록입니다. 기본값은 `Xim`, `Wayland`, `Indicator`입니다
 
 * Xim
 * Wayland
 * Indicator
+* Ibus: `kime-ibus`, IBus 프로토콜만 지원하는 앱(`GTK_IM_MODULE=ibus`,
+  flatpak)을 지원합니다. 기본으로 꺼져 있습니다.
+  [README](../README.ko.md#ibus-x11) 참고
 
 # indicator
 
