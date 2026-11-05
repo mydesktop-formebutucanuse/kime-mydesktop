@@ -38,6 +38,7 @@
 - [x] GTK4
 - [x] Qt5
 - [x] Qt6
+- [x] IBus (X11, 선택 사항 — [아래](#ibus-x11) 참고)
 
 ## 설치
 
@@ -198,6 +199,38 @@ Wayland 세션에서는 `kime-wayland`가 동작하지 않습니다. GTK/Qt 앱�
 path=/usr/bin/kime
 ```
 
+### IBus (X11)
+
+`kime-ibus`를 사용하면 IBus 프로토콜만 지원하는 앱 — `GTK_IM_MODULE=ibus`,
+`QT_IM_MODULE=ibus`, 그리고 번들된 GTK/Qt 런타임에 IBus 입력기 모듈만 있고
+kime 모듈은 불러올 수 없는 flatpak 앱 — 에서도 `ibus-daemon` 없이 kime으로
+입력할 수 있습니다. 기본으로 켜져 있지 않으므로
+`~/.config/kime/config.yaml`의 데몬 모듈에 `Ibus`를 추가하고
+
+```yaml
+daemon:
+  modules:
+  - Xim
+  - Wayland
+  - Indicator
+  - Ibus
+```
+
+`kime`을 다시 시작하세요. `kime-ibus`는 세션 버스에서
+`org.freedesktop.IBus`와 `org.freedesktop.portal.IBus` 이름을 소유하고 IBus
+주소 파일(`~/.config/ibus/bus/`)을 기록하므로, IBus 클라이언트는 데몬 대신
+kime에 연결됩니다.
+
+* 실제 `ibus-daemon`과 함께 실행하지 마세요. 살아 있는 IBus 데몬이 이미 주소
+  파일이나 IBus 버스 이름을 소유하고 있으면 `kime-ibus`는 시작하지 않습니다.
+* flatpak 앱은 IBus 포털을 통해 연결됩니다. 그래도 앱이 kime을 사용하지
+  않는다면 `GTK_IM_MODULE=ibus`로 실행하세요 (예:
+  `flatpak override --user --env=GTK_IM_MODULE=ibus <app-id>`).
+* Qt의 IBus 플러그인은 `PATH`에 `ibus-daemon` 실행 파일이 있을 때만
+  활성화되므로(실행되지는 않습니다) 샌드박스 밖에서 `QT_IM_MODULE=ibus`를
+  쓰려면 `ibus` 패키지가 설치되어 있어야 합니다. 이 경우에는
+  `QT_IM_MODULE=kime`을 권장합니다.
+
 ### 샌드박스 앱 (snap, flatpak)
 
 snap이나 flatpak 샌드박스 안에서는 kime의 GTK/Qt 입력기 모듈을 불러올 수
@@ -212,6 +245,9 @@ wlroots 계열)에서는 text-input-v3를 사용하는 샌드박스 앱도 컴�
 입력이 되므로, 이 문제는 주로 X11 세션과 GNOME에서 발생합니다.
 [#346](https://github.com/Riey/kime/issues/346),
 [#422](https://github.com/Riey/kime/issues/422)를 참고하세요.
+
+X11에서는 flatpak 앱도 [`kime-ibus`](#ibus-x11)를 통해 kime으로 입력할 수
+있습니다.
 
 ### Configuration
 

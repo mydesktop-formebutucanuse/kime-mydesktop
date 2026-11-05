@@ -1904,6 +1904,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "kime-ibus"
+version = "0.1.0"
+dependencies = [
+ "futures-util",
+ "kime-engine-core",
+ "kime-version",
+ "libc",
+ "log",
+ "pico-args",
+ "serde",
+ "tokio",
+ "zbus",
+]
+
+[[package]]
 name = "kime-indicator"
 version = "0.1.0"
 dependencies = [

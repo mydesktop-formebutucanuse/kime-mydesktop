@@ -30,7 +30,7 @@ jobs:
 
       - name: Strip
         run: |
-          for f in kime kime-check kime-indicator kime-candidate-window kime-xim kime-wayland; do
+          for f in kime kime-check kime-indicator kime-candidate-window kime-xim kime-wayland kime-ibus; do
             [ -f "target/release/$f" ] && strip -s "target/release/$f"
           done
           [ -f "target/release/libkime_engine.so" ] && strip -s target/release/libkime_engine.so
@@ -232,7 +232,7 @@ jobs:
 
       - name: Strip
         run: |
-          for f in kime kime-check kime-indicator kime-candidate-window kime-xim kime-wayland; do
+          for f in kime kime-check kime-indicator kime-candidate-window kime-xim kime-wayland kime-ibus; do
             [ -f "target/release/$f" ] && strip -s "target/release/$f"
           done
           [ -f "target/release/libkime_engine.so" ] && strip -s target/release/libkime_engine.so

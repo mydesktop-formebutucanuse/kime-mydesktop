@@ -38,6 +38,7 @@ Please contact us on [Discord](https://discord.gg/YPnEfZqC6y) or create github i
 - [x] GTK4
 - [x] Qt5
 - [x] Qt6
+- [x] IBus (X11, opt-in — see [below](#ibus-x11))
 
 ## Installation
 
@@ -199,6 +200,37 @@ It is required to have the following lines in `~/.config/weston.ini`
 path=/usr/bin/kime
 ```
 
+### IBus (X11)
+
+`kime-ibus` makes kime answer applications that only speak the IBus
+protocol — `GTK_IM_MODULE=ibus`, `QT_IM_MODULE=ibus`, and flatpak
+applications, whose bundled GTK/Qt runtimes ship IBus's input method module
+but cannot load kime's — without `ibus-daemon`. It is opt-in: add `Ibus` to
+the daemon modules in `~/.config/kime/config.yaml`
+
+```yaml
+daemon:
+  modules:
+  - Xim
+  - Wayland
+  - Indicator
+  - Ibus
+```
+
+and restart `kime`. `kime-ibus` owns the `org.freedesktop.IBus` and
+`org.freedesktop.portal.IBus` names on the session bus and writes the IBus
+address file (`~/.config/ibus/bus/`), so IBus clients find kime there instead
+of a daemon.
+
+* Do not run it next to a real `ibus-daemon`: `kime-ibus` refuses to start
+  when a live IBus daemon already owns the address file or the IBus bus name.
+* Flatpak applications reach it through the IBus portal. If an application
+  still does not pick it up, run it with `GTK_IM_MODULE=ibus` (e.g.
+  `flatpak override --user --env=GTK_IM_MODULE=ibus <app-id>`).
+* Qt's IBus plugin only enables itself when an `ibus-daemon` executable is on
+  `PATH` (it is never started), so `QT_IM_MODULE=ibus` outside a sandbox needs
+  the `ibus` package installed. Prefer `QT_IM_MODULE=kime` there.
+
 ### Sandboxed applications (snap, flatpak)
 
 kime's GTK/Qt input method modules cannot be loaded inside snap or flatpak
@@ -213,6 +245,9 @@ sway and other wlroots compositors), sandboxed applications that speak
 text-input-v3 still work through the compositor, so this mainly affects X11
 sessions and GNOME. See [#346](https://github.com/Riey/kime/issues/346) and
 [#422](https://github.com/Riey/kime/issues/422).
+
+On X11, flatpak applications can reach kime through
+[`kime-ibus`](#ibus-x11).
 
 ### Configuration
 
