@@ -25,6 +25,22 @@ impl Default for Config {
 
 impl Config {
     fn new_impl(mut engine: EngineConfig, hangul_data: HangulData) -> Self {
+        // A binding for a mode this build lacks would swallow its key for
+        // nothing (the default `ControlR` -> Hanja is `Consume`) and shadow
+        // a global hotkey on the same key: drop it so the key reaches the app.
+        let available = |hotkey: &Hotkey| match hotkey.behavior() {
+            HotkeyBehavior::Mode(mode) => mode_available(mode),
+            _ => true,
+        };
+        engine.global_hotkeys.retain(|_, hotkey| available(hotkey));
+        for map in engine
+            .category_hotkeys
+            .values_mut()
+            .chain(engine.mode_hotkeys.values_mut())
+        {
+            map.retain(|_, hotkey| available(hotkey));
+        }
+
         let mut db = fontdb::Database::new();
         db.load_system_fonts();
 
@@ -80,9 +96,12 @@ impl Config {
                 let (font, index) = load_font(&engine.xim_preedit_font.0);
                 (font, index, engine.xim_preedit_font.1)
             },
-            candidate_font: {
-                let (font, index) = load_font(&engine.candidate_font);
-                (font, index)
+            // Only the hanja candidate window draws with it: without hanja,
+            // don't read a whole CJK font into every process loading this.
+            candidate_font: if mode_available(InputMode::Hanja) {
+                load_font(&engine.candidate_font)
+            } else {
+                Default::default()
             },
             preferred_direct: engine.latin.preferred_direct,
             latin_data: LatinData::new(&engine.latin),
@@ -103,6 +122,16 @@ impl Config {
     pub fn from_engine_config_with_dir(engine: EngineConfig, dir: &xdg::BaseDirectories) -> Self {
         let hangul_data = HangulData::from_config_with_dir(&engine.hangul, dir);
         Self::new_impl(engine, hangul_data)
+    }
+}
+
+/// Whether this build has `mode` compiled in (the `hanja`, `math` and
+/// `emoji` features).
+const fn mode_available(mode: InputMode) -> bool {
+    match mode {
+        InputMode::Hanja => cfg!(feature = "hanja"),
+        InputMode::Math => cfg!(feature = "math"),
+        InputMode::Emoji => cfg!(feature = "emoji"),
     }
 }
 

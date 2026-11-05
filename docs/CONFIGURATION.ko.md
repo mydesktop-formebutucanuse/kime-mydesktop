@@ -181,7 +181,7 @@ XIM에서 쓸 편집창 글꼴과 크기입니다.
 ## candidate_font
 
 [Hanja 모드](#hanja)에서 쓰는 `kime-candidate-window` 팝업의 글꼴
-이름입니다.
+이름입니다. 한자를 넣어 빌드했을 때만 불러옵니다.
 
 | 기본값 |`Noto Sans CJK KR`|
 |--------|------------------|
@@ -342,7 +342,7 @@ kime에는 `Latin`/`Hangul` 입력 언어 외에 세 가지 입력 *모드*가
 |---------|---------------------------------|--------------------|
 | `Math`  | `M-C-Backslash` (Alt+Ctrl+`\`)  | 전역               |
 | `Emoji` | `M-C-E` (Alt+Ctrl+E)            | 전역               |
-| `Hanja` | `F9`, `HangulHanja`, `ControlR` | `Hangul` 언어에서만 |
+| `Hanja` | `F9`, `HangulHanja`, `ControlR` | `Hangul` 언어에서만, [선택 빌드](#hanja) |
 
 모든 모드에서 `Enter`와 `Tab`이 기본으로 `Commit`에 연결되어 있어 현재
 입력을 커밋합니다. 전역 단축키는 `mode_hotkeys`에서 덮어쓰지 않는 한
@@ -392,6 +392,10 @@ Latin`)로 모드에서 빠져나올 수 있습니다.
 
 조합 중인 한글을 한자로 변환하는 모드로, `Hangul` 언어에서 편집 중인
 글자가 있을 때만 동작합니다(예: 한을 입력한 뒤 `F9`).
+
+kime을 `meson setup build -Dhanja=enabled`로 빌드해야 켜집니다. 그렇지
+않으면 `!Mode Hanja` 단축키는 무시되고, 해당 키(`F9`, `HangulHanja`,
+`ControlR`)는 일반 키로 앱에 전달됩니다.
 
 * 후보와 뜻을 보여주는 `kime-candidate-window` 팝업이 열립니다.
   `kime-candidate-window` 바이너리가 `PATH`에 설치되어 있어야 합니다.

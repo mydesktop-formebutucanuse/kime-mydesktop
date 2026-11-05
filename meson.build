@@ -37,13 +37,24 @@ else
   # Build engine and binaries from source via cargo
   cargo_packages = ['-p', 'kime-engine-capi']
 
+  # Hanja is off unless asked for: it is a cargo feature of the engine that
+  # every package in this one cargo invocation shares, and the candidate
+  # window is its only user.
+  hanja = get_option('hanja').allowed()
+  build_candidate_window = get_option('candidate_window').require(hanja,
+    error_message: 'kime-candidate-window is the hanja popup: add -Dhanja=enabled',
+  ).allowed()
+  if hanja
+    cargo_args += ['--features', 'kime-engine-core/hanja']
+  endif
+
   if get_option('check').allowed()
     cargo_packages += ['-p', 'kime-check']
   endif
   if get_option('indicator').allowed()
     cargo_packages += ['-p', 'kime-indicator']
   endif
-  if get_option('candidate_window').allowed()
+  if build_candidate_window
     cargo_packages += ['-p', 'kime-candidate-window']
   endif
   if get_option('xim').allowed()
@@ -91,7 +102,7 @@ else
       '_', target_dir / 'kime-indicator',
     )
   endif
-  if get_option('candidate_window').allowed()
+  if build_candidate_window
     meson.add_install_script('sh', '-c',
       'install -Dm755 "$1" -t "${DESTDIR}${MESON_INSTALL_PREFIX}/bin"',
       '_', target_dir / 'kime-candidate-window',

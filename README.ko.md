@@ -122,6 +122,9 @@ sudo ninja -C build install
 
 필요한 프론트엔드만 `-Dgtk3=true`, `-Dqt5=true` 등으로 선택 또는 해제 하세요.
 
+한자 변환은 기본으로 빌드되지 않습니다. `-Dhanja=enabled`를 추가하면
+후보 팝업(`kime-candidate-window`)과 함께 빌드됩니다.
+
 #### GTK
 
 대부분 배포판들은 이걸 자동으로 해주므로
@@ -265,7 +268,7 @@ X11에서는 flatpak 앱도 [`kime-ibus`](#ibus-x11)를 통해 kime으로 입력
 * qt5
 * qt6
 * libdbus (indicator)
-* xcb (candidate)
+* xcb (후보 창, `-Dhanja=enabled`일 때만)
 * fontconfig (xim)
 * freetype (xim)
 * libxkbcommon (wayland)

@@ -180,7 +180,7 @@ Preedit window font name and size for XIM
 ## candidate_font
 
 Font name for the `kime-candidate-window` popup used by
-[Hanja mode](#hanja)
+[Hanja mode](#hanja). Only builds with hanja load it.
 
 | default |`Noto Sans CJK KR`|
 |---------|------------------|
@@ -358,7 +358,7 @@ Default hotkeys:
 |---------|---------------------------------|-------------------------|
 | `Math`  | `M-C-Backslash` (Alt+Ctrl+`\`)  | everywhere              |
 | `Emoji` | `M-C-E` (Alt+Ctrl+E)            | everywhere              |
-| `Hanja` | `F9`, `HangulHanja`, `ControlR` | `Hangul` category only  |
+| `Hanja` | `F9`, `HangulHanja`, `ControlR` | `Hangul` category only, [opt-in build](#hanja) |
 
 In every mode `Enter` and `Tab` are bound to `Commit` by default, which
 commits the current input. Global hotkeys keep working inside a mode
@@ -410,6 +410,10 @@ Emoji mode searches emoji by name.
 Hanja mode converts the hangul text you are composing into hanja, so it
 only works in the `Hangul` category while a preedit exists (e.g. type 한
 then press `F9`).
+
+Hanja is off unless kime was built with `meson setup build -Dhanja=enabled`.
+Without it the `!Mode Hanja` hotkeys are ignored, so their keys (`F9`,
+`HangulHanja`, `ControlR`) reach the application as ordinary keys.
 
 * It opens the `kime-candidate-window` popup listing the candidates with
   their meanings. The `kime-candidate-window` binary must be installed

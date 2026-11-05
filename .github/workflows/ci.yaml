@@ -92,8 +92,8 @@ jobs:
       # missing gtk4 (say) would silently drop the artifact and the tests
       # would fail as if the frontend were broken. qt5 stays `auto` — nixpkgs
       # refuses Qt5 and Qt6 in one environment, and qt::q5_smoke skips when
-      # the plugin is absent.
-      - run: nix develop "$DEVSHELL" -c meson setup build --buildtype=debug -Dcargo_profile=debug -Dgtk3=enabled -Dgtk4=enabled -Dqt6=enabled -Dxim=enabled -Dwayland=enabled -Dcandidate_window=enabled
+      # the plugin is absent. Hanja is opt-in; the suite covers it.
+      - run: nix develop "$DEVSHELL" -c meson setup build --buildtype=debug -Dcargo_profile=debug -Dgtk3=enabled -Dgtk4=enabled -Dqt6=enabled -Dxim=enabled -Dwayland=enabled -Dhanja=enabled -Dcandidate_window=enabled
       - run: nix develop "$DEVSHELL" -c ninja -C build
       - name: Run the e2e GUI suite
         env:

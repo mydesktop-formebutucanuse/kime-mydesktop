@@ -124,6 +124,9 @@ sudo ninja -C build install
 
 Enable/disable the frontends by toggling `-Dgtk3=true`, `-Dqt5=false`, etc.
 
+Hanja conversion is not built by default. Add `-Dhanja=enabled` to build
+it together with its `kime-candidate-window` popup.
+
 #### GTK
 
 Typically, this step is not necessary when kime is installed from binary package because most Linux distros does these steps themselves.
@@ -264,7 +267,7 @@ These dependencies are optional depending on your environments. For example, qt6
 * qt5
 * qt6
 * libdbus (indicator)
-* xcb (candidate)
+* xcb (candidate window, `-Dhanja=enabled` only)
 * fontconfig (xim)
 * freetype (xim)
 * libxkbcommon (wayland)
