@@ -9,6 +9,7 @@ license = "GPL-3.0-or-later"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-kime-engine-core = { path = "../../engine/core" }
+# `hanja`: the engine only loads `candidate_font` in hanja builds
+kime-engine-core = { path = "../../engine/core", features = ["hanja"] }
 eframe = { version = "0.33", default-features = false, features = ["glow", "default_fonts", "wayland", "x11"] }
 egui = "0.33"

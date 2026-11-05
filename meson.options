@@ -6,7 +6,8 @@ option('cargo_profile', type: 'combo', choices: ['release', 'debug'], value: 're
 
 option('check', type: 'feature', value: 'auto', description: 'Build kime-check')
 option('indicator', type: 'feature', value: 'auto', description: 'Build kime-indicator')
-option('candidate_window', type: 'feature', value: 'auto', description: 'Build kime-candidate-window')
+option('hanja', type: 'feature', value: 'disabled', description: 'Hanja conversion (F9/HangulHanja/ControlR) and its kime-candidate-window popup')
+option('candidate_window', type: 'feature', value: 'auto', description: 'Build kime-candidate-window (only with -Dhanja=enabled)')
 option('xim', type: 'feature', value: 'auto', description: 'Build kime-xim')
 option('wayland', type: 'feature', value: 'auto', description: 'Build kime-wayland')
 option('ibus', type: 'feature', value: 'auto', description: 'Build kime-ibus')

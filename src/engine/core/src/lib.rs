@@ -316,6 +316,8 @@ impl EngineImpl {
         }
     }
 
+    // Only the hanja mode reads the preedit.
+    #[cfg_attr(not(feature = "hanja"), allow(unused_variables, clippy::ptr_arg))]
     pub fn set_mode(
         &mut self,
         mode: InputMode,

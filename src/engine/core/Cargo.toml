@@ -32,7 +32,9 @@ name = "call_key"
 harness = false
 
 [features]
-default = ["hanja", "math", "emoji"]
+# Hanja is opt-in (meson `-Dhanja=enabled`): it needs the
+# kime-candidate-window popup and its font.
+default = ["math", "emoji"]
 hanja = ["dep:kime-engine-backend-hanja"]
 math = ["dep:kime-engine-backend-math"]
 emoji = ["dep:kime-engine-backend-emoji"]

@@ -12,6 +12,7 @@
   gtk4 ? true,
   qt5 ? false,
   qt6 ? true,
+  hanja ? false,
 }:
 let
   src = pkgs.lib.cleanSourceWith {
@@ -61,6 +62,7 @@ llvmPackages.stdenv.mkDerivation {
       -Dcargo_profile=${cargoProfile} \
       -Dgtk3=${boolToFeature gtk3} -Dgtk4=${boolToFeature gtk4} \
       -Dqt5=${boolToFeature qt5} -Dqt6=${boolToFeature qt6} \
+      -Dhanja=${boolToFeature hanja} \
       ${pkgs.lib.optionalString qt5 "-Dqt5_plugindir=$out/${pkgs.qt5.qtbase.qtPluginPrefix}"} \
       ${pkgs.lib.optionalString qt6 "-Dqt6_plugindir=$out/${pkgs.qt6.qtbase.qtPluginPrefix}"}
   '';
@@ -82,7 +84,8 @@ llvmPackages.stdenv.mkDerivation {
     wrapProgram $out/bin/kime-wayland \
       --prefix LD_LIBRARY_PATH : "${pkgs.lib.makeLibraryPath [ pkgs.wayland ]}"
 
-    wrapProgram $out/bin/kime-candidate-window \
+    # only built with hanja
+    [ ! -e $out/bin/kime-candidate-window ] || wrapProgram $out/bin/kime-candidate-window \
       --prefix LD_LIBRARY_PATH : "${
         pkgs.lib.makeLibraryPath [
           pkgs.libGL
